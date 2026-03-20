@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>IT GOT</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --bg-dark: #0b1120;
+            --surface-dark: #1e293b;
+            --primary: #3b82f6;
+            --primary-glow: rgba(59, 130, 246, 0.5);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-light: #f1f5f9;
+            --text-dim: #94a3b8;
+            --border-dark: #334155;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --toggle-bg: #475569;
+            --toggle-active: #3b82f6;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding-bottom: 100px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* glassmorphism header */
+        header {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-dark);
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .sync-badge {
+            background: var(--surface-dark);
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            border: 1px solid var(--border-dark);
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sync-badge i {
+            font-size: 0.5rem;
+            color: var(--success);
+        }
+
+        /* stats cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .stat-card {
+            background: var(--surface-dark);
+            border: 1px solid var(--border-dark);
+            border-radius: 20px;
+            padding: 14px 5px;
+            text-align: center;
+            backdrop-filter: blur(4px);
+            transition: transform 0.2s, border-color 0.2s;
+            cursor: pointer;
+            box-shadow: 0 8px 12px -4px rgba(0,0,0,0.4);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .stat-card b {
+            display: block;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-card small {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* search area */
+        .search-area {
+            padding: 0 20px 15px;
+        }
+
+        .search-box {
+            background: var(--surface-dark);
+            border: 1px solid var(--border-dark);
+            border-radius: 40px;
+            padding: 12px 20px;
+            width: 100%;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        /* cards container */
+        .list-container {
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 16px;
+            backdrop-filter: blur(4px);
+            transition: all 0.25s ease;
+            cursor: pointer;
+            box-shadow: 0 8px 16px -6px rgba(0, 0, 0, 0.5);
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            transform: scale(1.01);
+            box-shadow: 0 12px 24px -8px var(--primary-glow);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .ip-badge {
+            background: #0f172a;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            border: 1px solid var(--border-dark);
+            letter-spacing: 0.5px;
+        }
+
+        .device-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--text-light);
+        }
+
+        .neighbor-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .n-chip {
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid #8b5cf6;
+            color: #c4b5fd;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            backdrop-filter: blur(2px);
+        }
+
+        .n-chip:hover {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        /* custom toggle */
+        .check {
+            position: relative;
+            line-height: 0;
+            font-size: 24px;
+            display: inline-block;
+        }
+        .check input {
+            display: none;
+        }
+        .check label {
+            width: 2.4em;
+            height: 1.2em;
+            background: #334155;
+            border-radius: 1.2em;
+            display: inline-block;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .check .dot {
+            position: absolute;
+            top: 0.1em;
+            left: 0.1em;
+            width: 1em;
+            height: 1em;
+            background: linear-gradient(145deg, #f0f0f0, #c0c0c0);
+            border-radius: 1em;
+            transition: left 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+        .check input:checked + label + .dot {
+            left: 1.3em;
+        }
+        .check input:checked + label {
+            background: var(--primary);
+        }
+
+        /* modals */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: none;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: var(--surface-dark);
+            border: 1px solid var(--border-dark);
+            border-radius: 40px;
+            padding: 24px;
+            max-width: 500px;
+            margin: 20px auto;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: var(--danger);
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .field input, .field select {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid var(--border-dark);
+            border-radius: 30px;
+            padding: 14px 20px;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .field input:focus, .field select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        /* حقول معطلة (وضع العرض) */
+        .field input:disabled, .field select:disabled {
+            opacity: 0.6;
+            background: #1e293b;
+            border-color: var(--border-dark);
+            color: var(--text-dim);
+        }
+
+        .picker {
+            background: #0f172a;
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            max-height: 160px;
+            overflow-y: auto;
+            display: none;
+            position: absolute;
+            width: calc(100% - 40px);
+            z-index: 2200;
+            box-shadow: 0 20px 30px -10px black;
+        }
+
+        .picker-item {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-dark);
+            cursor: pointer;
+            transition: background 0.2s;
+            color: white;
+        }
+
+        .picker-item:hover {
+            background: var(--primary);
+        }
+
+        .btn-main {
+            background: var(--primary);
+            border: none;
+            border-radius: 40px;
+            padding: 16px;
+            width: 100%;
+            font-weight: 700;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 8px 20px -5px var(--primary-glow);
+            margin-top: 10px;
+        }
+
+        .btn-main:hover {
+            background: #2563eb;
+            transform: scale(1.02);
+        }
+
+        .btn-danger {
+            background: transparent;
+            border: 2px solid var(--danger);
+            color: var(--danger);
+            box-shadow: none;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* زر الإضافة القديم */
+        .cssbuttons-io-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: fixed;
+            bottom: 90px;
+            left: 20px;
+            background: linear-gradient(145deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 60px;
+            padding: 14px 28px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 10px 25px -5px #22c55e;
+            cursor: pointer;
+            z-index: 1100;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .cssbuttons-io-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px -5px #22c55e;
+        }
+
+        /* القائمة المنبثقة للأيقونات */
+        .add-popup {
+            position: fixed;
+            bottom: 160px;
+            left: 20px;
+            background: var(--surface-dark);
+            border: 1px solid var(--border-dark);
+            border-radius: 40px;
+            padding: 12px;
+            display: flex;
+            gap: 16px;
+            box-shadow: 0 20px 30px -10px black;
+            z-index: 1150;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+
+        .add-popup.show {
+            display: flex;
+        }
+
+        .add-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+            padding: 8px 12px;
+            border-radius: 30px;
+        }
+
+        .add-option:hover {
+            color: var(--primary);
+            background: rgba(59,130,246,0.1);
+            transform: translateY(-2px);
+        }
+
+        .add-option i {
+            font-size: 1.8rem;
+        }
+
+        .add-option span {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        /* bottom navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 400px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 60px;
+            border: 1px solid var(--border-dark);
+            padding: 8px 12px;
+            box-shadow: 0 20px 30px -10px black;
+            z-index: 1200;
+        }
+
+        .nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-items li {
+            display: inline-block;
+        }
+
+        .nav-items input[type="radio"] {
+            display: none;
+        }
+
+        .nav-items label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-dim);
+            font-size: 0.6rem;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-items i {
+            font-size: 1.4rem;
+            margin-bottom: 2px;
+        }
+
+        .nav-items input[type="radio"]:checked + label {
+            color: var(--primary);
+        }
+
+        .nav-items label:hover {
+            color: var(--text-light);
+        }
+
+        /* loading overlay */
+        #setupOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--border-dark);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            border: 1px solid var(--border-dark);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 60px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            z-index: 3500;
+            display: none;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .empty-message {
+            text-align: center;
+            color: var(--text-dim);
+            padding: 40px 20px;
+            font-size: 1rem;
+        }
+
+        /* عرض السليف في صفحة الماستر */
+        .slave-list {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 30px;
+            border: 1px solid var(--border-dark);
+        }
+
+        .slave-list h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .slave-item {
+            background: var(--surface-dark);
+            border-radius: 20px;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .slave-ip {
+            font-family: monospace;
+            color: var(--success);
+        }
+
+        .slave-name {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- loading / initial overlay -->
+    <div id="setupOverlay">
+        <h1 style="color:var(--primary);">IT GOR</h1>
+        <div class="spinner"></div>
+        <p style="color:var(--text-dim);">جاري التحميل من السحابة...</p>
+    </div>
+
+    <!-- toast for notifications -->
+    <div id="toast" class="toast"></div>
+
+    <header>
+        <div class="logo">IT GOT PRO <i class="fas fa-cloud" style="margin-right:5px;"></i></div>
+        <div class="sync-badge"><i class="fas fa-circle"></i> متصل سحابياً</div>
+    </header>
+
+    <!-- stats cards -->
+    <div class="stats-grid">
+        <div class="stat-card" id="stat-all" onclick="app.setQuickFilter('all')"><b id="s-total">0</b><small>الكل</small></div>
+        <div class="stat-card" id="stat-on" onclick="app.setQuickFilter('on')"><b id="s-on" style="color:var(--success)">0</b><small>متصل</small></div>
+        <div class="stat-card" id="stat-off" onclick="app.setQuickFilter('off')"><b id="s-off" style="color:var(--danger)">0</b><small>صيانة</small></div>
+        <div class="stat-card" id="stat-nvr" onclick="app.switchTab('nvr')"><b id="s-v">0</b><small>NVR</small></div>
+    </div>
+
+    <!-- search -->
+    <div class="search-area">
+        <input type="text" id="masterSearch" class="search-box" placeholder="🔍 بحث بالـ IP أو الاسم..." oninput="app.render()">
+    </div>
+
+    <!-- main list -->
+    <div id="mainList" class="list-container"></div>
+
+    <!-- CAM modal -->
+    <div id="modalCam" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-camera" style="margin-left:8px;"></i> <span id="modalCamTitle">إعدادات الكاميرا</span></h2>
+                <button class="close-btn" onclick="app.closeModal('modalCam')">&times;</button>
+            </div>
+            <input type="hidden" id="f-c-id">
+            <div class="field"><label>عنوان IP</label><input type="text" id="f-c-ip" disabled></div>
+            <div class="field"><label>الاسم</label><input type="text" id="f-c-name" placeholder="مثلاً: مدخل رئيسي" disabled></div>
+            <div class="field"><label>نوع الربط</label>
+                <select id="f-c-conn" disabled onchange="app.uiCamLink()">
+                    <option value="fiber">🔦 ربط ضوئي (Fiber)</option>
+                    <option value="nano">📡 عبر نانو ستيشن (Slave)</option>
+                    <option value="nvr">🎥 مباشرة إلى NVR</option>
+                </select>
+            </div>
+            <div id="camLinkArea" class="field" style="display:none">
+                <label>الجهاز المرتبط</label>
+                <input type="text" id="f-c-link-search" placeholder="ابحث بـ IP..." oninput="app.searchPicker('link', this.value)" disabled>
+                <div id="link-picker" class="picker"></div>
+                <input type="hidden" id="f-c-link-id">
+            </div>
+            <!-- أزرار التحكم -->
+            <div id="camViewButtons">
+                <button class="btn-main btn-secondary" onclick="app.enableEditMode('cam')">✏️ تعديل</button>
+                <button class="btn-main btn-danger" onclick="app.deleteItem('cam')" style="display:none;">🗑️ حذف الجهاز</button>
+            </div>
+            <div id="camEditButtons" style="display:none;">
+                <button class="btn-main" onclick="app.saveCam()">💾 حفظ في السحابة</button>
+                <button class="btn-main btn-danger" onclick="app.deleteItem('cam')">🗑️ حذف الجهاز</button>
+                <button class="btn-main btn-secondary" onclick="app.disableEditMode('cam')">↩️ رجوع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NANO modal -->
+    <div id="modalNano" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-wifi" style="margin-left:8px;"></i> <span id="modalNanoTitle">إعدادات النانو</span></h2>
+                <button class="close-btn" onclick="app.closeModal('modalNano')">&times;</button>
+            </div>
+            <input type="hidden" id="f-n-id">
+            <div class="field"><label>عنوان IP</label><input type="text" id="f-n-ip" disabled></div>
+            <div class="field"><label>الاسم</label><input type="text" id="f-n-name" placeholder="مثلاً: برج 5" disabled></div>
+            <div class="field"><label>النوع</label>
+                <select id="f-n-type" disabled onchange="app.uiNanoLink()">
+                    <option value="Slave">📡 Slave</option>
+                    <option value="Master">📶 Master</option>
+                </select>
+            </div>
+            <div id="nanoLinkArea" class="field">
+                <label>مرتبط بـ Master</label>
+                <input type="text" id="f-n-link-search" placeholder="ابحث عن Master..." oninput="app.searchPicker('nano', this.value)" disabled>
+                <div id="nano-picker" class="picker"></div>
+                <input type="hidden" id="f-n-link-id">
+            </div>
+            <!-- عرض السليف إذا كان النوع Master -->
+            <div id="masterSlavesContainer" class="slave-list" style="display:none;">
+                <h3><i class="fas fa-satellite-dish"></i> النانو السليف المرتبطة</h3>
+                <div id="masterSlavesList"></div>
+            </div>
+            <!-- أزرار التحكم -->
+            <div id="nanoViewButtons">
+                <button class="btn-main btn-secondary" onclick="app.enableEditMode('nano')">✏️ تعديل</button>
+                <button class="btn-main btn-danger" onclick="app.deleteItem('nano')" style="display:none;">🗑️ حذف</button>
+            </div>
+            <div id="nanoEditButtons" style="display:none;">
+                <button class="btn-main" onclick="app.saveNano()">💾 حفظ في السحابة</button>
+                <button class="btn-main btn-danger" onclick="app.deleteItem('nano')">🗑️ حذف</button>
+                <button class="btn-main btn-secondary" onclick="app.disableEditMode('nano')">↩️ رجوع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NVR modal -->
+    <div id="modalNvr" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-server" style="margin-left:8px;"></i> <span id="modalNvrTitle">إعدادات NVR</span></h2>
+                <button class="close-btn" onclick="app.closeModal('modalNvr')">&times;</button>
+            </div>
+            <input type="hidden" id="f-v-id">
+            <div class="field"><label>عنوان IP</label><input type="text" id="f-v-ip" disabled></div>
+            <div class="field"><label>الاسم</label><input type="text" id="f-v-name" placeholder="مثلاً: NVR المركزي" disabled></div>
+            <!-- أزرار التحكم -->
+            <div id="nvrViewButtons">
+                <button class="btn-main btn-secondary" onclick="app.enableEditMode('nvr')">✏️ تعديل</button>
+                <button class="btn-main btn-danger" onclick="app.deleteItem('nvr')" style="display:none;">🗑️ حذف</button>
+            </div>
+            <div id="nvrEditButtons" style="display:none;">
+                <button class="btn-main" onclick="app.saveNvr()">💾 حفظ NVR</button>
+                <button class="btn-main btn-danger" onclick="app.deleteItem('nvr')">🗑️ حذف</button>
+                <button class="btn-main btn-secondary" onclick="app.disableEditMode('nvr')">↩️ رجوع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- زر الإضافة القديم -->
+    <button class="cssbuttons-io-button" id="addButton" onclick="app.toggleAddPopup()">
+        <i class="fas fa-plus"></i> <span>إضافة</span>
+    </button>
+
+    <!-- القائمة المنبثقة للأيقونات -->
+    <div id="addPopup" class="add-popup">
+        <div class="add-option" onclick="app.openCamModal(); app.hideAddPopup()">
+            <i class="fas fa-camera"></i>
+            <span>كاميرا</span>
+        </div>
+        <div class="add-option" onclick="app.openNanoModal(); app.hideAddPopup()">
+            <i class="fas fa-wifi"></i>
+            <span>نانو</span>
+        </div>
+        <div class="add-option" onclick="app.openNvrModal(); app.hideAddPopup()">
+            <i class="fas fa-server"></i>
+            <span>NVR</span>
+        </div>
+    </div>
+
+    <!-- bottom navigation (swapped icons) -->
+    <div class="bottom-nav">
+        <ul class="nav-items">
+            <li>
+                <input type="radio" name="nav" id="nav-cam" checked onclick="app.switchTab('cam')">
+                <label for="nav-cam"><i class="fas fa-video"></i><span>كاميرات</span></label>
+            </li>
+            <li>
+                <input type="radio" name="nav" id="nav-nano" onclick="app.switchTab('nano')">
+                <label for="nav-nano"><i class="fas fa-broadcast-tower"></i><span>نانو</span></label>
+            </li>
+            <li>
+                <input type="radio" name="nav" id="nav-wifi" onclick="app.switchTab('wifi')">
+                <label for="nav-wifi"><i class="fas fa-wifi"></i><span>لاسلكي</span></label>
+            </li>
+            <li>
+                <input type="radio" name="nav" id="nav-nvr" onclick="app.switchTab('nvr')">
+                <label for="nav-nvr"><i class="fas fa-hdd"></i><span>NVR</span></label>
+            </li>
+        </ul>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAHevjjYV6ifoc3-Ba_AEnssdQNjy796ZY",
+            authDomain: "it-gor.firebaseapp.com",
+            databaseURL: "https://it-gor-default-rtdb.firebaseio.com",
+            projectId: "it-gor",
+            storageBucket: "it-gor.firebasestorage.app",
+            messagingSenderId: "1045337289512",
+            appId: "1:1045337289512:web:8d031bc646509525bed61d"
+        };
+
+        const f_app = initializeApp(firebaseConfig);
+        const db = getDatabase(f_app);
+
+        function showToast(msg, duration = 2000) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, duration);
+        }
+
+        window.app = {
+            dbData: { cams: [], nanos: [], nvrs: [] },
+            tab: 'cam',
+            quickFilter: 'all',
+            currentEditMode: null, // لتتبع وضع التحرير الحالي
+
+            init() {
+                document.getElementById('setupOverlay').style.display = 'flex';
+                onValue(ref(db, 'it_got_pro'), (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        this.dbData.cams = data.cams || [];
+                        this.dbData.nanos = data.nanos || [];
+                        this.dbData.nvrs = data.nvrs || [];
+                    } else {
+                        this.dbData = { cams: [], nanos: [], nvrs: [] };
+                    }
+                    document.getElementById('setupOverlay').style.display = 'none';
+                    this.render();
+                    document.getElementById('nav-cam').checked = true;
+                });
+
+                document.addEventListener('click', (e) => {
+                    const popup = document.getElementById('addPopup');
+                    const btn = document.getElementById('addButton');
+                    if (!popup.contains(e.target) && !btn.contains(e.target)) {
+                        popup.classList.remove('show');
+                    }
+                });
+            },
+
+            saveToCloud() {
+                update(ref(db, 'it_got_pro'), this.dbData).then(() => {
+                    showToast('💾 تم الحفظ في السحابة');
+                }).catch(() => showToast('❌ فشل الحفظ', 3000));
+            },
+
+            getLastOctet(ip) {
+                const parts = ip.split('.');
+                return parseInt(parts[parts.length-1], 10) || 0;
+            },
+
+            getNeighborsForCamera(cam) {
+                if (cam.conn !== 'nano' || !cam.linkId) return [];
+                return this.dbData.cams.filter(c => 
+                    c.id !== cam.id && 
+                    c.active && 
+                    c.conn === 'nano' && 
+                    c.linkId === cam.linkId
+                ).map(c => c.ip);
+            },
+
+            render() {
+                const list = document.getElementById('mainList');
+                const query = document.getElementById('masterSearch').value.toLowerCase();
+                list.innerHTML = '';
+                this.updateStats();
+
+                let currentData = (this.tab === 'cam') ? this.dbData.cams : (this.tab === 'nano' ? this.dbData.nanos : this.dbData.nvrs);
+                if (!currentData) currentData = [];
+
+                let filtered = currentData.filter(item => {
+                    const mSearch = item.ip.includes(query) || (item.name && item.name.toLowerCase().includes(query));
+                    const mQuick = this.quickFilter === 'all' ? true : (this.quickFilter === 'on' ? item.status : !item.status);
+                    return mSearch && mQuick;
+                });
+
+                filtered.sort((a, b) => {
+                    if (a.status !== b.status) {
+                        return a.status ? -1 : 1;
+                    }
+                    const numA = this.getLastOctet(a.ip);
+                    const numB = this.getLastOctet(b.ip);
+                    return numA - numB;
+                });
+
+                if (filtered.length === 0) {
+                    list.innerHTML = '<div class="empty-message">لا توجد أجهزة، أضف جهازاً جديداً</div>';
+                    return;
+                }
+
+                filtered.slice(0, 50).forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = `card ${item.active ? 'active' : 'inactive'}`;
+                    card.onclick = () => this.viewItem(item.id);
+                    
+                    let neighborsHtml = '';
+                    if (this.tab === 'cam' && item.conn === 'nano' && item.linkId) {
+                        const neighborIPs = this.getNeighborsForCamera(item);
+                        if (neighborIPs.length > 0) {
+                            neighborsHtml = `
+                                <div class="neighbor-group">
+                                    ${neighborIPs.map(ip => `<div class="n-chip" onclick="event.stopPropagation(); app.jumpToNeighbor('${ip}')">${ip}</div>`).join('')}
+                                </div>`;
+                        }
+                    }
+                    
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <span class="ip-badge">${item.ip}</span>
+                            <div class="check" onclick="event.stopPropagation()">
+                                <input id="check-${item.id}" type="checkbox" ${item.status ? 'checked' : ''} onchange="app.toggleStatus('${item.id}')">
+                                <label for="check-${item.id}"></label>
+                                <div class="dot"></div>
+                            </div>
+                        </div>
+                        <div class="device-name">${item.name || '<span style="color:var(--text-dim);">غير مفعل</span>'}</div>
+                        ${neighborsHtml}
+                    `;
+                    list.appendChild(card);
+                });
+            },
+
+            toggleStatus(id) {
+                let found = false;
+                ['cams', 'nanos', 'nvrs'].forEach(key => {
+                    const idx = this.dbData[key].findIndex(x => x.id === id);
+                    if (idx !== -1) {
+                        this.dbData[key][idx].status = !this.dbData[key][idx].status;
+                        found = true;
+                    }
+                });
+                if(found) {
+                    this.saveToCloud();
+                    this.render();
+                }
+            },
+
+            updateStats() {
+                const c_act = this.dbData.cams.filter(c => c.active).length;
+                const n_act = this.dbData.nanos.filter(n => n.active).length;
+                const v_act = this.dbData.nvrs.length;
+                const online = this.dbData.cams.filter(c => c.status).length + this.dbData.nanos.filter(n => n.status).length + v_act;
+                
+                document.getElementById('s-total').innerText = c_act + n_act + v_act;
+                document.getElementById('s-on').innerText = online;
+                document.getElementById('s-off').innerText = (c_act + n_act + v_act) - online;
+                document.getElementById('s-v').innerText = v_act;
+            },
+
+            switchTab(t) {
+                this.tab = t;
+                this.render();
+                const map = { cam: 'nav-cam', nano: 'nav-nano', wifi: 'nav-wifi', nvr: 'nav-nvr' };
+                if (map[t]) document.getElementById(map[t]).checked = true;
+            },
+
+            setQuickFilter(q) {
+                this.quickFilter = q;
+                this.render();
+            },
+
+            toggleAddPopup() {
+                const popup = document.getElementById('addPopup');
+                popup.classList.toggle('show');
+            },
+
+            hideAddPopup() {
+                document.getElementById('addPopup').classList.remove('show');
+            },
+
+            // فتح المودال في وضع العرض
+            viewItem(id) {
+                if (id.startsWith('c')) {
+                    const c = this.dbData.cams.find(x => x.id === id);
+                    if (!c) return;
+                    document.getElementById('f-c-id').value = c.id;
+                    document.getElementById('f-c-ip').value = c.ip;
+                    document.getElementById('f-c-name').value = c.name || '';
+                    document.getElementById('f-c-conn').value = c.conn || 'fiber';
+                    document.getElementById('f-c-link-id').value = c.linkId || '';
+                    if (c.linkId && c.conn !== 'fiber') {
+                        let linkedDevice = (c.conn === 'nano') ? this.dbData.nanos.find(n => n.id === c.linkId) : this.dbData.nvrs.find(v => v.id === c.linkId);
+                        if (linkedDevice) document.getElementById('f-c-link-search').value = linkedDevice.ip;
+                    } else {
+                        document.getElementById('f-c-link-search').value = '';
+                    }
+                    this.uiCamLink();
+                    this.disableEditMode('cam'); // يضمن وضع العرض
+                    this.openModal('modalCam');
+                } else if (id.startsWith('n')) {
+                    const n = this.dbData.nanos.find(x => x.id === id);
+                    if (!n) return;
+                    document.getElementById('f-n-id').value = n.id;
+                    document.getElementById('f-n-ip').value = n.ip;
+                    document.getElementById('f-n-name').value = n.name || '';
+                    document.getElementById('f-n-type').value = n.type || 'Slave';
+                    document.getElementById('f-n-link-id').value = n.linkId || '';
+                    if (n.linkId && n.type === 'Slave') {
+                        const master = this.dbData.nanos.find(m => m.id === n.linkId);
+                        if (master) document.getElementById('f-n-link-search').value = master.ip;
+                    } else {
+                        document.getElementById('f-n-link-search').value = '';
+                    }
+                    this.uiNanoLink();
+                    // عرض السليف إذا كان ماستر
+                    this.displayMasterSlaves(n);
+                    this.disableEditMode('nano');
+                    this.openModal('modalNano');
+                } else {
+                    const v = this.dbData.nvrs.find(x => x.id === id);
+                    if (!v) return;
+                    document.getElementById('f-v-id').value = v.id;
+                    document.getElementById('f-v-ip').value = v.ip;
+                    document.getElementById('f-v-name').value = v.name || '';
+                    this.disableEditMode('nvr');
+                    this.openModal('modalNvr');
+                }
+            },
+
+            // عرض قائمة السليف المرتبطة بماستر
+            displayMasterSlaves(master) {
+                const container = document.getElementById('masterSlavesContainer');
+                const listEl = document.getElementById('masterSlavesList');
+                if (master.type === 'Master') {
+                    const slaves = this.dbData.nanos.filter(n => n.linkId === master.id && n.type === 'Slave' && n.active);
+                    if (slaves.length > 0) {
+                        listEl.innerHTML = slaves.map(s => `
+                            <div class="slave-item">
+                                <span class="slave-ip">${s.ip}</span>
+                                <span class="slave-name">${s.name || 'بدون اسم'}</span>
+                            </div>
+                        `).join('');
+                        container.style.display = 'block';
+                    } else {
+                        listEl.innerHTML = '<div style="color:var(--text-dim);">لا يوجد أجهزة تابعة</div>';
+                        container.style.display = 'block';
+                    }
+                } else {
+                    container.style.display = 'none';
+                }
+            },
+
+            // دوال وضع التحرير
+            enableEditMode(type) {
+                // تعطيل جميع الحقول في المودال المعني
+                if (type === 'cam') {
+                    document.querySelectorAll('#modalCam input, #modalCam select').forEach(el => el.disabled = false);
+                    document.getElementById('camViewButtons').style.display = 'none';
+                    document.getElementById('camEditButtons').style.display = 'block';
+                    document.getElementById('modalCamTitle').innerText = 'تعديل الكاميرا';
+                } else if (type === 'nano') {
+                    document.querySelectorAll('#modalNano input, #modalNano select').forEach(el => el.disabled = false);
+                    document.getElementById('nanoViewButtons').style.display = 'none';
+                    document.getElementById('nanoEditButtons').style.display = 'block';
+                    document.getElementById('modalNanoTitle').innerText = 'تعديل النانو';
+                } else if (type === 'nvr') {
+                    document.querySelectorAll('#modalNvr input').forEach(el => el.disabled = false);
+                    document.getElementById('nvrViewButtons').style.display = 'none';
+                    document.getElementById('nvrEditButtons').style.display = 'block';
+                    document.getElementById('modalNvrTitle').innerText = 'تعديل NVR';
+                }
+                this.currentEditMode = type;
+            },
+
+            disableEditMode(type) {
+                if (type === 'cam') {
+                    document.querySelectorAll('#modalCam input, #modalCam select').forEach(el => el.disabled = true);
+                    document.getElementById('camViewButtons').style.display = 'block';
+                    document.getElementById('camEditButtons').style.display = 'none';
+                    document.getElementById('modalCamTitle').innerText = 'إعدادات الكاميرا';
+                } else if (type === 'nano') {
+                    document.querySelectorAll('#modalNano input, #modalNano select').forEach(el => el.disabled = true);
+                    document.getElementById('nanoViewButtons').style.display = 'block';
+                    document.getElementById('nanoEditButtons').style.display = 'none';
+                    document.getElementById('modalNanoTitle').innerText = 'إعدادات النانو';
+                } else if (type === 'nvr') {
+                    document.querySelectorAll('#modalNvr input').forEach(el => el.disabled = true);
+                    document.getElementById('nvrViewButtons').style.display = 'block';
+                    document.getElementById('nvrEditButtons').style.display = 'none';
+                    document.getElementById('modalNvrTitle').innerText = 'إعدادات NVR';
+                }
+                this.currentEditMode = null;
+            },
+
+            // فتح المودال للإضافة (وضع تحرير فوري)
+            openCamModal() {
+                document.getElementById('f-c-id').value = '';
+                document.querySelectorAll('#modalCam input:not([type=hidden])').forEach(i => i.value = '');
+                document.getElementById('f-c-conn').value = 'fiber';
+                this.uiCamLink();
+                // تفعيل وضع التحرير فوراً
+                this.enableEditMode('cam');
+                this.openModal('modalCam');
+            },
+
+            openNanoModal() {
+                document.getElementById('f-n-id').value = '';
+                document.querySelectorAll('#modalNano input:not([type=hidden])').forEach(i => i.value = '');
+                document.getElementById('f-n-type').value = 'Slave';
+                this.uiNanoLink();
+                document.getElementById('masterSlavesContainer').style.display = 'none'; // إخفاء قائمة السليف عند الإضافة
+                this.enableEditMode('nano');
+                this.openModal('modalNano');
+            },
+
+            openNvrModal() {
+                document.getElementById('f-v-id').value = '';
+                document.querySelectorAll('#modalNvr input').forEach(i => i.value = '');
+                this.enableEditMode('nvr');
+                this.openModal('modalNvr');
+            },
+
+            deleteItem(type) {
+                let id = '';
+                if (type === 'cam') id = document.getElementById('f-c-id').value;
+                else if (type === 'nano') id = document.getElementById('f-n-id').value;
+                else if (type === 'nvr') id = document.getElementById('f-v-id').value;
+
+                if (!id) return;
+
+                if (type === 'cam') {
+                    this.dbData.cams = this.dbData.cams.filter(item => item.id !== id);
+                } else if (type === 'nano') {
+                    this.dbData.nanos = this.dbData.nanos.filter(item => item.id !== id);
+                } else if (type === 'nvr') {
+                    this.dbData.nvrs = this.dbData.nvrs.filter(item => item.id !== id);
+                }
+
+                this.saveToCloud();
+                this.closeModal(type === 'cam' ? 'modalCam' : (type === 'nano' ? 'modalNano' : 'modalNvr'));
+                this.render();
+                showToast('🗑️ تم الحذف');
+            },
+
+            saveCam() {
+                const ip = document.getElementById('f-c-ip').value;
+                let idx = this.dbData.cams.findIndex(c => c.ip === ip);
+                const newCam = {
+                    id: idx !== -1 ? this.dbData.cams[idx].id : 'c-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+                    ip: ip,
+                    name: document.getElementById('f-c-name').value,
+                    conn: document.getElementById('f-c-conn').value,
+                    linkId: document.getElementById('f-c-link-id').value,
+                    status: false,
+                    active: true
+                };
+                if (idx !== -1) {
+                    this.dbData.cams[idx] = { ...this.dbData.cams[idx], ...newCam };
+                } else {
+                    this.dbData.cams.push(newCam);
+                }
+                this.saveToCloud();
+                this.disableEditMode('cam');
+                this.closeModal('modalCam');
+                this.render();
+            },
+
+            saveNano() {
+                const ip = document.getElementById('f-n-ip').value;
+                let idx = this.dbData.nanos.findIndex(n => n.ip === ip);
+                const newNano = {
+                    id: idx !== -1 ? this.dbData.nanos[idx].id : 'n-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+                    ip: ip,
+                    name: document.getElementById('f-n-name').value,
+                    type: document.getElementById('f-n-type').value,
+                    linkId: document.getElementById('f-n-link-id').value,
+                    status: false,
+                    active: true
+                };
+                if (idx !== -1) {
+                    this.dbData.nanos[idx] = { ...this.dbData.nanos[idx], ...newNano };
+                } else {
+                    this.dbData.nanos.push(newNano);
+                }
+                this.saveToCloud();
+                this.disableEditMode('nano');
+                this.closeModal('modalNano');
+                this.render();
+            },
+
+            saveNvr() {
+                const ip = document.getElementById('f-v-ip').value;
+                const id = document.getElementById('f-v-id').value || 'v-'+Date.now();
+                const existing = this.dbData.nvrs.find(v => v.ip === ip && v.id !== id);
+                if (existing) {
+                    showToast('⚠️ IP موجود مسبقاً', 2000);
+                    return;
+                }
+                const idx = this.dbData.nvrs.findIndex(v => v.id === id);
+                const data = { id, ip, name: document.getElementById('f-v-name').value, active: true, status: true };
+                if (idx !== -1) this.dbData.nvrs[idx] = data;
+                else this.dbData.nvrs.push(data);
+                this.saveToCloud();
+                this.disableEditMode('nvr');
+                this.closeModal('modalNvr');
+                this.render();
+            },
+
+            uiCamLink() {
+                const val = document.getElementById('f-c-conn').value;
+                document.getElementById('camLinkArea').style.display = (val === 'fiber') ? 'none' : 'block';
+            },
+
+            uiNanoLink() {
+                const val = document.getElementById('f-n-type').value;
+                document.getElementById('nanoLinkArea').style.display = (val === 'Slave') ? 'block' : 'none';
+            },
+
+            openModal(id) {
+                document.getElementById(id).style.display = 'block';
+            },
+
+            closeModal(id) {
+                document.getElementById(id).style.display = 'none';
+                // إذا كان هناك وضع تحرير نشط، نلغيه عند الإغلاق
+                if (this.currentEditMode) {
+                    this.disableEditMode(this.currentEditMode);
+                }
+            },
+
+            searchPicker(mode, val) {
+                let picker;
+                if (mode === 'link') picker = document.getElementById('link-picker');
+                else picker = document.getElementById('nano-picker');
+
+                if (val.length < 2) { picker.style.display = 'none'; return; }
+                picker.innerHTML = '';
+
+                let list = [];
+                if (mode === 'link') {
+                    const conn = document.getElementById('f-c-conn').value;
+                    // إذا كان الربط عبر نانو، نعرض فقط أجهزة النانو من نوع Slave
+                    if (conn === 'nano') {
+                        list = this.dbData.nanos.filter(n => n.type === 'Slave' && n.active);
+                    } else {
+                        list = this.dbData.nvrs;
+                    }
+                } else { // nano picker for master (للبحث عن ماستر)
+                    list = this.dbData.nanos.filter(n => n.type === 'Master' && n.active);
+                }
+
+                list.filter(i => i.ip.includes(val)).slice(0,5).forEach(i => {
+                    const d = document.createElement('div');
+                    d.className = 'picker-item';
+                    d.innerText = i.ip + (i.name ? ' | ' + i.name : '');
+                    d.onclick = () => {
+                        document.getElementById(mode === 'link' ? 'f-c-link-search' : 'f-n-link-search').value = i.ip;
+                        document.getElementById(mode === 'link' ? 'f-c-link-id' : 'f-n-link-id').value = i.id;
+                        picker.style.display = 'none';
+                    };
+                    picker.appendChild(d);
+                });
+
+                picker.style.display = picker.children.length ? 'block' : 'none';
+            },
+
+            jumpToNeighbor(ip) {
+                const target = this.dbData.cams.find(c => c.ip === ip);
+                if (target) {
+                    this.switchTab('cam');
+                    this.viewItem(target.id);
+                }
+            }
+        };
+
+        app.init();
+    </script>
+</body>
+</html>

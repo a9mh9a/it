@@ -184,6 +184,16 @@
             color: var(--primary);
             border: 1px solid var(--border-dark);
             letter-spacing: 0.5px;
+            /* التعديلات المضافة للآيبي ليكون قابل للضغط */
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .ip-badge:hover {
+            /* التعديلات المضافة للآيبي ليكون قابل للضغط */
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 10px var(--primary-glow);
         }
 
         .device-name {
@@ -628,6 +638,14 @@
         .slave-ip {
             font-family: monospace;
             color: var(--success);
+            /* التعديلات المضافة للآيبي ليكون قابل للضغط */
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .slave-ip:hover {
+            color: white;
+            text-decoration: underline;
         }
 
         .slave-name {
@@ -932,9 +950,10 @@
                         }
                     }
                     
+                    // التعديل: تمت إضافة onclick لفتح المتصفح و event.stopPropagation لمنع فتح نافذة العرض
                     card.innerHTML = `
                         <div class="card-header">
-                            <span class="ip-badge">${item.ip}</span>
+                            <span class="ip-badge" onclick="event.stopPropagation(); window.open('http://${item.ip}', '_blank')">${item.ip}</span>
                             <div class="check" onclick="event.stopPropagation()">
                                 <input id="check-${item.id}" type="checkbox" ${item.status ? 'checked' : ''} onchange="app.toggleStatus('${item.id}')">
                                 <label for="check-${item.id}"></label>
@@ -1052,9 +1071,10 @@
                 if (master.type === 'Master') {
                     const slaves = this.dbData.nanos.filter(n => n.linkId === master.id && n.type === 'Slave' && n.active);
                     if (slaves.length > 0) {
+                        // التعديل: إضافة حدث الضغط لآيبي السليف ليفتح في المتصفح
                         listEl.innerHTML = slaves.map(s => `
                             <div class="slave-item">
-                                <span class="slave-ip">${s.ip}</span>
+                                <span class="slave-ip" onclick="window.open('http://${s.ip}', '_blank')">${s.ip}</span>
                                 <span class="slave-name">${s.name || 'بدون اسم'}</span>
                             </div>
                         `).join('');

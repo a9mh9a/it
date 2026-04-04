@@ -184,13 +184,11 @@
             color: var(--primary);
             border: 1px solid var(--border-dark);
             letter-spacing: 0.5px;
-            /* التعديلات المضافة للآيبي ليكون قابل للضغط */
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
         .ip-badge:hover {
-            /* التعديلات المضافة للآيبي ليكون قابل للضغط */
             background: var(--primary);
             color: white;
             box-shadow: 0 0 10px var(--primary-glow);
@@ -638,7 +636,6 @@
         .slave-ip {
             font-family: monospace;
             color: var(--success);
-            /* التعديلات المضافة للآيبي ليكون قابل للضغط */
             cursor: pointer;
             transition: color 0.2s;
         }
@@ -857,7 +854,7 @@
             dbData: { cams: [], nanos: [], nvrs: [] },
             tab: 'cam',
             quickFilter: 'all',
-            currentEditMode: null, // لتتبع وضع التحرير الحالي
+            currentEditMode: null,
 
             init() {
                 document.getElementById('setupOverlay').style.display = 'flex';
@@ -934,7 +931,8 @@
                     return;
                 }
 
-                filtered.slice(0, 50).forEach(item => {
+                // تم إزالة slice(0, 50) هنا لعرض جميع الأجهزة مهما كان عددها
+                filtered.forEach(item => {
                     const card = document.createElement('div');
                     card.className = `card ${item.active ? 'active' : 'inactive'}`;
                     card.onclick = () => this.viewItem(item.id);
@@ -950,7 +948,6 @@
                         }
                     }
                     
-                    // التعديل: تمت إضافة onclick لفتح المتصفح و event.stopPropagation لمنع فتح نافذة العرض
                     card.innerHTML = `
                         <div class="card-header">
                             <span class="ip-badge" onclick="event.stopPropagation(); window.open('http://${item.ip}', '_blank')">${item.ip}</span>
@@ -1015,7 +1012,6 @@
                 document.getElementById('addPopup').classList.remove('show');
             },
 
-            // فتح المودال في وضع العرض
             viewItem(id) {
                 if (id.startsWith('c')) {
                     const c = this.dbData.cams.find(x => x.id === id);
@@ -1032,7 +1028,7 @@
                         document.getElementById('f-c-link-search').value = '';
                     }
                     this.uiCamLink();
-                    this.disableEditMode('cam'); // يضمن وضع العرض
+                    this.disableEditMode('cam');
                     this.openModal('modalCam');
                 } else if (id.startsWith('n')) {
                     const n = this.dbData.nanos.find(x => x.id === id);
@@ -1049,7 +1045,6 @@
                         document.getElementById('f-n-link-search').value = '';
                     }
                     this.uiNanoLink();
-                    // عرض السليف إذا كان ماستر
                     this.displayMasterSlaves(n);
                     this.disableEditMode('nano');
                     this.openModal('modalNano');
@@ -1064,14 +1059,12 @@
                 }
             },
 
-            // عرض قائمة السليف المرتبطة بماستر
             displayMasterSlaves(master) {
                 const container = document.getElementById('masterSlavesContainer');
                 const listEl = document.getElementById('masterSlavesList');
                 if (master.type === 'Master') {
                     const slaves = this.dbData.nanos.filter(n => n.linkId === master.id && n.type === 'Slave' && n.active);
                     if (slaves.length > 0) {
-                        // التعديل: إضافة حدث الضغط لآيبي السليف ليفتح في المتصفح
                         listEl.innerHTML = slaves.map(s => `
                             <div class="slave-item">
                                 <span class="slave-ip" onclick="window.open('http://${s.ip}', '_blank')">${s.ip}</span>
@@ -1088,9 +1081,7 @@
                 }
             },
 
-            // دوال وضع التحرير
             enableEditMode(type) {
-                // تعطيل جميع الحقول في المودال المعني
                 if (type === 'cam') {
                     document.querySelectorAll('#modalCam input, #modalCam select').forEach(el => el.disabled = false);
                     document.getElementById('camViewButtons').style.display = 'none';
@@ -1130,13 +1121,11 @@
                 this.currentEditMode = null;
             },
 
-            // فتح المودال للإضافة (وضع تحرير فوري)
             openCamModal() {
                 document.getElementById('f-c-id').value = '';
                 document.querySelectorAll('#modalCam input:not([type=hidden])').forEach(i => i.value = '');
                 document.getElementById('f-c-conn').value = 'fiber';
                 this.uiCamLink();
-                // تفعيل وضع التحرير فوراً
                 this.enableEditMode('cam');
                 this.openModal('modalCam');
             },
@@ -1146,7 +1135,7 @@
                 document.querySelectorAll('#modalNano input:not([type=hidden])').forEach(i => i.value = '');
                 document.getElementById('f-n-type').value = 'Slave';
                 this.uiNanoLink();
-                document.getElementById('masterSlavesContainer').style.display = 'none'; // إخفاء قائمة السليف عند الإضافة
+                document.getElementById('masterSlavesContainer').style.display = 'none';
                 this.enableEditMode('nano');
                 this.openModal('modalNano');
             },
@@ -1260,7 +1249,6 @@
 
             closeModal(id) {
                 document.getElementById(id).style.display = 'none';
-                // إذا كان هناك وضع تحرير نشط، نلغيه عند الإغلاق
                 if (this.currentEditMode) {
                     this.disableEditMode(this.currentEditMode);
                 }
@@ -1277,13 +1265,12 @@
                 let list = [];
                 if (mode === 'link') {
                     const conn = document.getElementById('f-c-conn').value;
-                    // إذا كان الربط عبر نانو، نعرض فقط أجهزة النانو من نوع Slave
                     if (conn === 'nano') {
                         list = this.dbData.nanos.filter(n => n.type === 'Slave' && n.active);
                     } else {
                         list = this.dbData.nvrs;
                     }
-                } else { // nano picker for master (للبحث عن ماستر)
+                } else {
                     list = this.dbData.nanos.filter(n => n.type === 'Master' && n.active);
                 }
 
